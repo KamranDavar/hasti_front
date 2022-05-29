@@ -8,12 +8,12 @@ export function useRels() {
 export function useRel(id: number) {
   return useQuery<rel, any>(["rel", id], getRel);
 }
-export function useCreateRel(id: number) {
-  return useMutation((rel: rel)=>postRel(rel));
+export function useCreateRel() {
+  return useMutation((rel: rel) => postRel(rel));
 }
 export function useUpdateRel(id: number) {
   return useMutation((rel: rel) => putRel(rel, id));
 }
-export function useDelteRel(id: number) {
-  return useMutation((rel: rel) => deleteRel(id));
+export function useDeleteRel(id: number | undefined) {
+  return useMutation(() => deleteRel(id));
 }

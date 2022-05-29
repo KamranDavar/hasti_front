@@ -1,5 +1,5 @@
 export type rel = {
-  "id": number,
+  "id"?: number,
   "type": string,
   "link": string,
 

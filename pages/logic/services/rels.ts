@@ -16,10 +16,10 @@ export const postRel = async (item: rel) => {
   return response.data;
 };
 export const putRel = async (item: rel, id: number) => {
-  const response = await jsonServerApi.post<rel>(`/rels/${id}`);
+  const response = await jsonServerApi.put<rel>(`/rels/${id}`, item);
   return response.data;
 };
-export const deleteRel = async (id: number) => {
+export const deleteRel = async (id: number | undefined) => {
   const response = await jsonServerApi.delete<rel>(`/rels/${id}`);
   return response.data;
 };
