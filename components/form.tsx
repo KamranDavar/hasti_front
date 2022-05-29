@@ -10,8 +10,13 @@ import {
 } from "../pages/logic/hooks/rels";
 import { rel } from "../pages/logic/types";
 import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
+import Paper, { PaperProps } from "@mui/material/Paper";
+import { alpha, styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
+import { grey } from "@mui/material/colors";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 type propsType = {
   mode: "create" | "update";
@@ -45,19 +50,35 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
   console.log("errors", errors);
 
   return (
-    <div>
+    <>
       {mode === "create" && (
-        <Button onClick={() => setExpanded(true)}>add social</Button>
+        <Button startIcon={<AddIcon />} onClick={() => setExpanded(true)}>
+          add social
+        </Button>
       )}
-      <Paper>
+      <GrayPaper sx={{ padding: expanded || mode === "update" ? "1rem" : "0" }}>
         {mode === "update" && (
           <Grid container spacing={2}>
-            <Grid item xs={10}>
+            <Grid item xs={9}>
               {item?.type}
             </Grid>
-            <Grid item xs={2}>
-              <Button onClick={() => setExpanded(true)}>Edit</Button>
-              <Button onClick={() => remove.mutate()}>Delete</Button>
+            <Grid item xs={3}>
+              <Grid container direction="row-reverse">
+                <Button
+                  startIcon={<DeleteIcon />}
+                  onClick={() => remove.mutate()}
+                  color="error"
+                >
+                  Delete
+                </Button>
+                <Button
+                  startIcon={<EditIcon />}
+                  onClick={() => setExpanded(true)}
+                  color="primary"
+                >
+                  Edit
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         )}
@@ -75,6 +96,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                       variant="outlined"
                       error={!!errors.type}
                       helperText={errors.type?.message}
+                      fullWidth
                     />
                   )}
                   rules={{ required: "This is required." }}
@@ -91,6 +113,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                       variant="outlined"
                       error={!!errors.link}
                       helperText={errors.link?.message}
+                      fullWidth
                     />
                   )}
                   rules={{ required: "This is required." }}
@@ -98,25 +121,42 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
               </Grid>
             </Grid>
             <Grid container spacing={2}>
-              <Grid item xs={10}></Grid>
-              <Grid item xs={2}>
-                <Button
-                  type="button"
-                  onClick={() => {
-                    setExpanded(false);
-                    reset();
-                  }}
-                >
-                  cancel
-                </Button>
-                <Button type="submit">submit</Button>
+              <Grid item xs={9}></Grid>
+              <Grid item xs={3} marginTop="0.5rem" direction="row-reverse">
+                <Grid container direction="row-reverse">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="small"
+                    color="primary"
+                  >
+                    submit
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setExpanded(false);
+                      reset();
+                    }}
+                    color="primary"
+                    size="small"
+                  >
+                    cancel
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           </form>
         </Collapse>
-      </Paper>
-    </div>
+      </GrayPaper>
+    </>
   );
 };
 
 export default Form;
+
+const GrayPaper = styled(Paper)<PaperProps>(({ theme }) => ({
+  padding: "1rem",
+  backgroundColor: grey[50],
+  margin: "1rem 0",
+}));

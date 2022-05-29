@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <Container maxWidth="lg">
+          <Container maxWidth="md">
             <Component {...pageProps} />
           </Container>
         </Hydrate>
