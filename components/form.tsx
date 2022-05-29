@@ -17,6 +17,7 @@ import { grey } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteDialog from "./deleteDialog";
 
 type propsType = {
   mode: "create" | "update";
@@ -27,6 +28,7 @@ type propsType = {
 };
 const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
   const [expanded, setExpanded] = useState<boolean | undefined>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const {
     control,
@@ -48,6 +50,13 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
   }, [update?.isSuccess, create.isSuccess, remove.isSuccess]);
 
   console.log("errors", errors);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
@@ -66,11 +75,17 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
               <Grid container direction="row-reverse">
                 <Button
                   startIcon={<DeleteIcon />}
-                  onClick={() => remove.mutate()}
+                  onClick={() => setOpen(true)}
                   color="error"
                 >
                   Delete
                 </Button>
+                <DeleteDialog
+                  open={open}
+                  setOpen={setOpen}
+                  onOk={() => remove.mutate()}
+                  id={id}
+                />
                 <Button
                   startIcon={<EditIcon />}
                   onClick={() => setExpanded(true)}
