@@ -30,6 +30,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import Display from "./display";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 type propsType = {
   mode: "create" | "update";
@@ -86,11 +87,12 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
             <Grid item xs={3}>
               <Grid container direction="row-reverse">
                 <Button
-                  startIcon={<DeleteIcon />}
+                  // startIcon={<DeleteIcon />}
                   onClick={() => setOpen(true)}
                   color="error"
                 >
-                  Delete
+                  <DeleteIcon />
+                  <Box display={{ xs: "none", sm: "block" }}>Delete</Box>
                 </Button>
                 <DeleteDialog
                   open={open}
@@ -98,12 +100,9 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                   onOk={() => remove.mutate()}
                   id={id}
                 />
-                <Button
-                  startIcon={<EditIcon />}
-                  onClick={() => setExpanded(true)}
-                  color="primary"
-                >
-                  Edit
+                <Button onClick={() => setExpanded(true)} color="primary">
+                  <EditIcon />
+                  <Box display={{ xs: "none", sm: "block" }}>Edit</Box>
                 </Button>
               </Grid>
             </Grid>
