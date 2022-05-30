@@ -29,6 +29,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import Display from "./display";
+import Typography from "@mui/material/Typography";
 
 type propsType = {
   mode: "create" | "update";
@@ -58,7 +59,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
     id ? await update?.mutate(data) : await create.mutate(data);
     setExpanded(false);
     !id && reset();
-   !id && setLink("");
+    !id && setLink("");
   };
   useEffect(() => {
     updateList();
@@ -111,6 +112,11 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography gutterBottom component="h6">
+                  {id ? `Edit Social ${item?.type}` : "Add Social"}
+                </Typography>
+              </Grid>
               <Grid item lg={4} xs={12}>
                 <Controller
                   name="type"
@@ -184,8 +190,8 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                     type="button"
                     onClick={() => {
                       setExpanded(false);
-                          !id && reset();
-                          !id && setLink("");
+                      !id && reset();
+                      !id && setLink("");
                     }}
                     color="primary"
                     size="small"
