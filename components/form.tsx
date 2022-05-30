@@ -40,7 +40,7 @@ type propsType = {
 const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
   const [expanded, setExpanded] = useState<boolean | undefined>(false);
   const [open, setOpen] = useState<boolean>(false);
-  const [link, setLink] = useState<string>("");
+  const [link, setLink] = useState<string | undefined>(id ? item?.type : "");
 
   const {
     control,
@@ -57,8 +57,8 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
   const onSubmit = async (data: rel) => {
     id ? await update?.mutate(data) : await create.mutate(data);
     setExpanded(false);
-    reset();
-    setLink("");
+    !id && reset();
+   !id && setLink("");
   };
   useEffect(() => {
     updateList();
@@ -117,7 +117,9 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                   control={control}
                   render={({ field }) => (
                     <FormControl fullWidth error={!!errors.type}>
-                      <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                      <InputLabel id="demo-simple-select-label">
+                        Type
+                      </InputLabel>
                       <Select
                         {...field}
                         labelId="demo-simple-select-label"
@@ -182,8 +184,8 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                     type="button"
                     onClick={() => {
                       setExpanded(false);
-                      reset();
-                      setLink("");
+                          !id && reset();
+                          !id && setLink("");
                     }}
                     color="primary"
                     size="small"
