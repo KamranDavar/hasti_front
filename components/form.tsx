@@ -18,6 +18,16 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteDialog from "./deleteDialog";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import PublicIcon from "@mui/icons-material/Public";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import TwitterIcon from "@mui/icons-material/Twitter";
 
 type propsType = {
   mode: "create" | "update";
@@ -29,12 +39,14 @@ type propsType = {
 const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
   const [expanded, setExpanded] = useState<boolean | undefined>(false);
   const [open, setOpen] = useState<boolean>(false);
+  const [link, setLink] = useState<string>("");
 
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = useForm({
     defaultValues: item,
   });
@@ -44,18 +56,16 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
   const onSubmit = async (data: rel) => {
     id ? await update?.mutate(data) : await create.mutate(data);
     setExpanded(false);
+    reset();
+    setLink("");
   };
   useEffect(() => {
     updateList();
   }, [update?.isSuccess, create.isSuccess, remove.isSuccess]);
 
-  console.log("errors", errors);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleChangeLink = (e: SelectChangeEvent<string>) => {
+    setLink(e.target.value);
+    setValue("type", e.target.value);
   };
 
   return (
@@ -105,14 +115,34 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                   name="type"
                   control={control}
                   render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="type"
-                      variant="outlined"
-                      error={!!errors.type}
-                      helperText={errors.type?.message}
-                      fullWidth
-                    />
+                    <FormControl fullWidth error={!!errors.type}>
+                      <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                      <Select
+                        {...field}
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={link}
+                        label="Age"
+                        onChange={handleChangeLink}
+                      >
+                        <MenuItem value="linkdin">
+                          <LinkedInIcon /> Linkdin
+                        </MenuItem>
+                        <MenuItem value="instagram">
+                          <InstagramIcon /> Instagram
+                        </MenuItem>
+                        <MenuItem value="twiter">
+                          <TwitterIcon /> Twiter
+                        </MenuItem>
+                        <MenuItem value="website">
+                          <PublicIcon /> Website
+                        </MenuItem>
+                        <MenuItem value="facebook">
+                          <FacebookIcon /> Facebook
+                        </MenuItem>
+                      </Select>
+                      <FormHelperText>{errors.link?.message}</FormHelperText>
+                    </FormControl>
                   )}
                   rules={{ required: "This is required." }}
                 />
@@ -137,7 +167,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
             </Grid>
             <Grid container spacing={2}>
               <Grid item xs={9}></Grid>
-              <Grid item xs={3} marginTop="0.5rem" direction="row-reverse">
+              <Grid item xs={3} marginTop="0.5rem">
                 <Grid container direction="row-reverse">
                   <Button
                     type="submit"
@@ -152,6 +182,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                     onClick={() => {
                       setExpanded(false);
                       reset();
+                      setLink("");
                     }}
                     color="primary"
                     size="small"
