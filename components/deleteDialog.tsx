@@ -15,7 +15,7 @@ function DeleteDialog(props: SimpleDialogProps) {
 
   return (
     <Dialog onClose={() => setOpen(false)} open={open}>
-      <DialogTitle>Are you sure to delete this item??</DialogTitle>
+      <DialogTitle>Are you sure to delete this item?</DialogTitle>
       <Button
         onClick={() => {
           setOpen(false);

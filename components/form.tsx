@@ -28,6 +28,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import PublicIcon from "@mui/icons-material/Public";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import Display from "./display";
 
 type propsType = {
   mode: "create" | "update";
@@ -79,7 +80,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
         {mode === "update" && (
           <Grid container spacing={2}>
             <Grid item xs={9}>
-              {item?.type}
+              <Display type={item?.type} link={item?.link} />
             </Grid>
             <Grid item xs={3}>
               <Grid container direction="row-reverse">
@@ -110,7 +111,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
-              <Grid item xs={4}>
+              <Grid item lg={4} xs={12}>
                 <Controller
                   name="type"
                   control={control}
@@ -147,7 +148,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                   rules={{ required: "This is required." }}
                 />
               </Grid>
-              <Grid item xs={8}>
+              <Grid item lg={8} xs={12}>
                 <Controller
                   name="link"
                   control={control}
@@ -166,8 +167,8 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
               </Grid>
             </Grid>
             <Grid container spacing={2}>
-              <Grid item xs={9}></Grid>
-              <Grid item xs={3} marginTop="0.5rem">
+              <Grid item xs={0} lg={9}></Grid>
+              <Grid item xs={12} lg={12} marginTop="0.5rem">
                 <Grid container direction="row-reverse">
                   <Button
                     type="submit"
