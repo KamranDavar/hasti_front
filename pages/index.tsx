@@ -7,19 +7,35 @@ import Form from "../components/form";
 import { useState } from "react";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import { alpha, styled } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
+import {  useTranslation, withTranslation } from "next-i18next";
 import Typography from "@mui/material/Typography";
+import TranslateIcon from "@mui/icons-material/Translate";
+import { GetStaticProps } from "next";
+import { InferGetStaticPropsType } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-const Home: NextPage = () => {
-  const [expanded, setExpanded] = useState<any>([]);
+export const getStaticProps: GetStaticProps = async (context) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(context?.locale || "en", ["common"])),
+    },
+  };
+};
+
+const Home: NextPage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const rels = useRels();
-
-  console.log("expanded:", expanded);
+  const { t } = useTranslation("common");
+  const router = useRouter();
 
   return (
     <PaddingPaper elevation={4}>
+      <Link href="/" locale={router.locale === "en" ? "fa" : "en"}>
+        <button>{t("change-locale")}</button>
+      </Link>
       <Typography gutterBottom component="h6">
-        Socials
+        {t("title")}
       </Typography>
       <Form mode="create" updateList={rels.refetch} />
       {rels?.data?.map((item) => (
@@ -40,5 +56,5 @@ export default Home;
 
 const PaddingPaper = styled(Paper)<PaperProps>(({ theme }) => ({
   padding: "1rem",
-  marginTop:"2rem"
+  marginTop: "2rem",
 }));

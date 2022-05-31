@@ -31,6 +31,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import Display from "./display";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { useTranslation } from "next-i18next";
 
 type propsType = {
   mode: "create" | "update";
@@ -43,6 +44,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
   const [expanded, setExpanded] = useState<boolean | undefined>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [link, setLink] = useState<string | undefined>(id ? item?.type : "");
+  const { t } = useTranslation("common");
 
   const {
     control,
@@ -75,7 +77,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
     <>
       {mode === "create" && (
         <Button startIcon={<AddIcon />} onClick={() => setExpanded(true)}>
-          add social
+          {t("add social")}
         </Button>
       )}
       <GrayPaper sx={{ padding: expanded || mode === "update" ? "1rem" : "0" }}>
@@ -92,7 +94,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                   color="error"
                 >
                   <DeleteIcon />
-                  <Box display={{ xs: "none", sm: "block" }}>Delete</Box>
+                  <Box display={{ xs: "none", sm: "block" }}>{t("delete")}</Box>
                 </Button>
                 <DeleteDialog
                   open={open}
@@ -102,7 +104,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                 />
                 <Button onClick={() => setExpanded(true)} color="primary">
                   <EditIcon />
-                  <Box display={{ xs: "none", sm: "block" }}>Edit</Box>
+                  <Box display={{ xs: "none", sm: "block" }}> {t("edit")}</Box>
                 </Button>
               </Grid>
             </Grid>
@@ -113,7 +115,9 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Typography gutterBottom component="h6">
-                  {id ? `Edit Social ${item?.type}` : "Add Social"}
+                  {id
+                    ? `${t("edit social")} ${t(item?.type ? item?.type : "")}`
+                    : t("add social")}
                 </Typography>
               </Grid>
               <Grid item lg={4} xs={12}>
@@ -123,7 +127,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                   render={({ field }) => (
                     <FormControl fullWidth error={!!errors.type}>
                       <InputLabel id="demo-simple-select-label">
-                        Type
+                        {t("type")}
                       </InputLabel>
                       <Select
                         {...field}
@@ -134,25 +138,25 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                         onChange={handleChangeLink}
                       >
                         <MenuItem value="linkdin">
-                          <LinkedInIcon /> Linkdin
+                          <LinkedInIcon /> {t("linkdin")}
                         </MenuItem>
                         <MenuItem value="instagram">
-                          <InstagramIcon /> Instagram
+                          <InstagramIcon /> {t("instagram")}
                         </MenuItem>
-                        <MenuItem value="twiter">
-                          <TwitterIcon /> Twiter
+                        <MenuItem value="twitter">
+                          <TwitterIcon /> {t("twitter")}
                         </MenuItem>
                         <MenuItem value="website">
-                          <PublicIcon /> Website
+                          <PublicIcon /> {t("website")}
                         </MenuItem>
                         <MenuItem value="facebook">
-                          <FacebookIcon /> Facebook
+                          <FacebookIcon /> {t("facebook")}
                         </MenuItem>
                       </Select>
                       <FormHelperText>{errors.link?.message}</FormHelperText>
                     </FormControl>
                   )}
-                  rules={{ required: "This is required." }}
+                  rules={{ required: t("required-error") }}
                 />
               </Grid>
               <Grid item lg={8} xs={12}>
@@ -162,14 +166,14 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                   render={({ field }) => (
                     <TextField
                       {...field}
-                      label="link"
+                      label={t("link")}
                       variant="outlined"
                       error={!!errors.link}
                       helperText={errors.link?.message}
                       fullWidth
                     />
                   )}
-                  rules={{ required: "This is required." }}
+                  rules={{ required: t("required-error") }}
                 />
               </Grid>
             </Grid>
@@ -183,7 +187,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                     size="small"
                     color="primary"
                   >
-                    submit
+                    {t("submit")}
                   </Button>
                   <Button
                     type="button"
@@ -195,7 +199,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                     color="primary"
                     size="small"
                   >
-                    cancel
+                    {t("cancel")}
                   </Button>
                 </Grid>
               </Grid>

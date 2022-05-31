@@ -1,0 +1,21 @@
+{
+  "title": "مسیرهای ارتباطی",
+  "change-locale": "فارسی",
+  "add": "افزودن مسیر ارتباطی",
+  "edit": "ویرایش",
+  "edit social": " ویرایش مسیر ارتباطی",
+  "add social": " اضافه کردن مسیر ارتباطی",
+  "delete": "حذف",
+  "cancel": "لغو",
+  "submit": "ثبت",
+  "instagram": "اینستاگرام",
+  "twitter": "توییتر",
+  "linkdin": "لینکدین",
+  "facebook": "فیسبوک",
+  "website": "وب سایت",
+  "type": "نوع",
+  "link": "لینک",
+  "to-second-page": "Zur zweiten Seite",
+  "required-error": "وارد کردن این فیلد اجباری است",
+  "are you sure?": "آیا از حذف این مسیر اطمینان دارید؟"
+}

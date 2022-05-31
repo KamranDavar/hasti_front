@@ -1,0 +1,21 @@
+{
+  "title": "Socials",
+  "change-locale": "English",
+  "add": "Add social",
+  "edit": "Edit",
+  "edit social": "Edit social",
+  "add social": "Add social",
+  "delete": "Delete",
+  "cancel": "لغو",
+  "submit": "Submit",
+  "instagram": "Instagram",
+  "twitter": "Twitter",
+  "linkdin": "Linkdin",
+  "facebook": "Facebook",
+  "website": "Website",
+
+  "type": "type",
+  "link": "link",
+  "required-error": "this feild is required.",
+  "are you sure?":"Are you sure to delete this item?"
+}
