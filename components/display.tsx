@@ -39,15 +39,15 @@ function Display(props: display) {
   }
 
   return (
-    <Grid container alignItems="center">
-      <PaddingGrid md={3} xs={12} item>
+    <Grid container alignItems="center" >
+      <PaddingGrid  item>
         <Grid container alignItems="center">
           <Typography>
             {icon} {type && t(type)}
           </Typography>
         </Grid>
       </PaddingGrid>
-      <PaddingGrid md={9} xs={12} item>
+      <PaddingGrid flexGrow={1} item>
         <Typography variant="caption" display="inline">
           {t("link")}: {' '}
         </Typography>

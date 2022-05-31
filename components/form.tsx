@@ -8,7 +8,7 @@ import {
   useUpdateRel,
   useDeleteRel,
 } from "../pages/logic/hooks/rels";
-import { rel } from "../pages/logic/types";
+import { rel, rels } from "../pages/logic/types";
 import Button from "@mui/material/Button";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import { alpha, styled } from "@mui/material/styles";
@@ -39,8 +39,9 @@ type propsType = {
   updateList: any;
   initialExpand?: boolean;
   item?: rel;
+  items: rels;
 };
-const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
+const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
   const [expanded, setExpanded] = useState<boolean | undefined>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [link, setLink] = useState<string | undefined>(id ? item?.type : "");
@@ -52,6 +53,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
     reset,
     formState: { errors },
     setValue,
+    getValues,
   } = useForm({
     defaultValues: item,
   });
@@ -76,7 +78,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
   return (
     <>
       {mode === "create" && (
-        <Button startIcon={<AddIcon />} onClick={() => setExpanded(true)}>
+        <Button startIcon={<AddIcon />} disabled={expanded} onClick={() => setExpanded(true)}>
           {t("add social")}
         </Button>
       )}
@@ -85,10 +87,10 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
       >
         {mode === "update" && (
           <Grid container spacing={2}>
-            <Grid item xs={9}>
+            <Grid item flexGrow={1}>
               <Display type={item?.type} link={item?.link} />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item>
               <Grid container direction="row-reverse">
                 <Button
                   // startIcon={<DeleteIcon />}
@@ -179,7 +181,20 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                       fullWidth
                     />
                   )}
-                  rules={{ required: t("required-error") }}
+                  rules={{
+                    required: t("required-error"),
+                    pattern: {
+                      value:
+                        /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i,
+                      message: "please inter a vald link.",
+                    },
+                    validate: {
+                      value: () => {
+                        const links = items.map((item) => item.link);
+                        return !links.includes(getValues("link"));
+                      },
+                    },
+                  }}
                 />
               </Grid>
             </Grid>
@@ -194,7 +209,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                     color="primary"
                     disabled={!!errors.link || !!errors.type}
                   >
-                    {id ?t("edit"):t("submit")}  {" "}{t("social")} {" "}
+                    {id ? t("edit") : t("submit")} {t("social")}{" "}
                     {link && t(link)}
                   </Button>
                   <Button
