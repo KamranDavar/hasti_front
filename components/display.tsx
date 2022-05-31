@@ -7,11 +7,11 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import Link from "@mui/material/Link";
 import styled from "@emotion/styled";
 import { useTranslation } from "next-i18next";
+import Typography from "@mui/material/Typography";
 
 export interface display {
   type?: string;
   link?: string;
-  // icon: React.ReactNode;
 }
 
 function Display(props: display) {
@@ -42,7 +42,9 @@ function Display(props: display) {
     <Grid container alignItems="center">
       <PaddingGrid md={3} xs={12} item>
         <Grid container alignItems="center">
-          {icon} {type && t(type)}
+          <Typography>
+            {icon} {type && t(type)}
+          </Typography>
         </Grid>
       </PaddingGrid>
       <PaddingGrid md={9} xs={12} item>

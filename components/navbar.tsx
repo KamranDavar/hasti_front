@@ -7,12 +7,20 @@ import { useRouter } from "next/router";
 export default function Navbar() {
   const router = useRouter();
   const { t } = useTranslation("common");
+  console.log("router", router);
 
   return (
-    <nav >
+    <nav>
       <Grid container direction="row-reverse">
         <Link href="/" locale={router.locale === "en" ? "fa" : "en"}>
-          <Button>{t("change-locale")}</Button>
+          <Button
+            onClick={() => {
+             const dir= router.locale === "fa" ? "ltr" : "rtl"
+              document.dir = dir ;
+            }}
+          >
+            {t("change-locale")}
+          </Button>
         </Link>
       </Grid>
     </nav>
