@@ -159,7 +159,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                           <FacebookIcon /> {t("facebook")}
                         </MenuItem>
                       </Select>
-                      <FormHelperText>{errors.link?.message}</FormHelperText>
+                      <FormHelperText>{errors.type?.message}</FormHelperText>
                     </FormControl>
                   )}
                   rules={{ required: t("required-error") }}
