@@ -183,9 +183,9 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                 />
               </Grid>
             </Grid>
-            <Grid marginTop="-0.6rem" container spacing={2}>
-              <Grid marginTop="-0.6rem" item xs={0} lg={9}></Grid>
-              <Grid marginTop="-0.6rem" item xs={12} lg={12}>
+            <ActionGrid container spacing={2}>
+              <ActionGrid item xs={0} lg={9}></ActionGrid>
+              <ActionGrid item xs={12} lg={12}>
                 <Grid container direction="row-reverse">
                   <Button
                     type="submit"
@@ -194,7 +194,8 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                     color="primary"
                     disabled={!!errors.link || !!errors.type}
                   >
-                    {t("submit")}
+                    {id ?t("edit"):t("submit")}  {" "}{t("social")} {" "}
+                    {link && t(link)}
                   </Button>
                   <Button
                     type="button"
@@ -209,8 +210,8 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                     {t("cancel")}
                   </Button>
                 </Grid>
-              </Grid>
-            </Grid>
+              </ActionGrid>
+            </ActionGrid>
           </form>
         </Collapse>
       </GrayPaper>
