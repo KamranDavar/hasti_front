@@ -31,9 +31,6 @@ const Home: NextPage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <PaddingPaper elevation={4}>
-      <Link href="/" locale={router.locale === "en" ? "fa" : "en"}>
-        <button>{t("change-locale")}</button>
-      </Link>
       <Typography gutterBottom component="h6">
         {t("title")}
       </Typography>
