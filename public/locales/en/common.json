@@ -1,6 +1,7 @@
 {
   "title": "Socials",
-  "change-locale": "English/Persian",
+  "english": "English",
+  "persian": "Persian",
   "add": "Add social",
   "edit": "Edit",
   "edit social": "Edit social",

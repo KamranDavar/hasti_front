@@ -1,5 +1,5 @@
 import Input from "@mui/material/Input";
-import TextField from "@mui/material/TextField";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Collapse from "@mui/material/Collapse";
 import React, { FC, useEffect, useState } from "react";
 import { useForm, Controller, set } from "react-hook-form";
@@ -12,7 +12,7 @@ import { rel } from "../pages/logic/types";
 import Button from "@mui/material/Button";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import { alpha, styled } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
+import Grid, { GridProps } from "@mui/material/Grid";
 import { grey } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,7 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteDialog from "./deleteDialog";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select, { SelectChangeEvent, SelectProps } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -80,7 +80,9 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
           {t("add social")}
         </Button>
       )}
-      <GrayPaper sx={{ padding: expanded || mode === "update" ? "1rem" : "0" }}>
+      <GrayPaper
+        sx={{ padding: expanded || mode === "update" ? "0.5rem" : "0" }}
+      >
         {mode === "update" && (
           <Grid container spacing={2}>
             <Grid item xs={9}>
@@ -102,7 +104,11 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                   onOk={() => remove.mutate()}
                   id={id}
                 />
-                <Button onClick={() => setExpanded(true)} color="primary">
+                <Button
+                  onClick={() => setExpanded(true)}
+                  disabled={expanded}
+                  color="primary"
+                >
                   <EditIcon />
                   <Box display={{ xs: "none", sm: "block" }}> {t("edit")}</Box>
                 </Button>
@@ -114,7 +120,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography gutterBottom component="h6">
+                <Typography variant="caption" component="h6">
                   {id
                     ? `${t("edit social")} ${t(item?.type ? item?.type : "")}`
                     : t("add social")}
@@ -177,15 +183,16 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
                 />
               </Grid>
             </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={0} lg={9}></Grid>
-              <Grid item xs={12} lg={12} marginTop="0.5rem">
+            <Grid marginTop="-0.6rem" container spacing={2}>
+              <Grid marginTop="-0.6rem" item xs={0} lg={9}></Grid>
+              <Grid marginTop="-0.6rem" item xs={12} lg={12}>
                 <Grid container direction="row-reverse">
                   <Button
                     type="submit"
                     variant="contained"
                     size="small"
                     color="primary"
+                    disabled={!!errors.link || !!errors.type}
                   >
                     {t("submit")}
                   </Button>
@@ -214,7 +221,14 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, initialExpand }) => {
 export default Form;
 
 const GrayPaper = styled(Paper)<PaperProps>(({ theme }) => ({
-  padding: "1rem",
+  padding: "0.5rem",
   backgroundColor: grey[50],
-  margin: "1rem 0",
+  margin: "0.5rem 0",
 }));
+const ActionGrid = styled(Grid)<GridProps>(({ theme }) => ({
+  marginTop: "-0.6rem",
+}));
+// const LinkTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
+//   direction: "ltr",
+//   font: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serifrtl",
+// }));

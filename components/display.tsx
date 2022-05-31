@@ -48,7 +48,12 @@ function Display(props: display) {
         </Grid>
       </PaddingGrid>
       <PaddingGrid md={9} xs={12} item>
-        <Link href={link}>{link}</Link>
+        <Typography variant="caption" display="inline">
+          {t("link")}: {' '}
+        </Typography>
+        <Typography  display="inline">
+          <Link href={link}>{link}</Link>
+        </Typography>
       </PaddingGrid>
     </Grid>
   );
@@ -56,6 +61,6 @@ function Display(props: display) {
 
 export default Display;
 
-const PaddingGrid = styled(Grid)<GridProps>(({ theme }) => ({
+export const PaddingGrid = styled(Grid)<GridProps>(({ theme }) => ({
   padding: "0.5rem",
 }));

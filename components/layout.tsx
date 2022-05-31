@@ -1,6 +1,7 @@
 import Navbar from "./navbar";
 import Footer from "./footer";
 import { FC, ReactNode } from "react";
+import Container from "@mui/material/Container";
 
 type propsType = {
   children: ReactNode;
@@ -8,11 +9,11 @@ type propsType = {
 
 const Layout: FC<propsType> = ({ children }) => {
   return (
-    <div>
+    <Container maxWidth="md">
       <Navbar />
       <main className="grow">{children}</main>
-      <Footer  />
-    </div>
+      <Footer />
+    </Container>
   );
 };
 export default Layout;
