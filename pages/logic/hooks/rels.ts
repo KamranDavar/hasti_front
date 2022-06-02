@@ -1,13 +1,13 @@
 import { useQuery, useMutation } from "react-query";
-import { getRels, postRel, getRel, putRel, deleteRel } from "../services/rels";
+import { getRels, postRel, putRel, deleteRel } from "../services/rels";
 import { rels, rel } from "../types";
 
 export function useRels() {
-  return useQuery<rels, any>(["rels"], getRels);
+  return useQuery<rels, Error>(["rels"], getRels);
 }
-export function useRel(id: number) {
-  return useQuery<rel, any>(["rel", id], getRel);
-}
+// export function useRel(id: number) {
+//   return useQuery<rel, Error>(["rel", id], getRel);
+// }
 export function useCreateRel() {
   return useMutation((rel: rel) => postRel(rel));
 }

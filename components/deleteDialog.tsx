@@ -3,13 +3,13 @@ import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import { useTranslation } from "next-i18next";
-
+import { Dispatch, SetStateAction } from "react";
 
 export interface SimpleDialogProps {
   open: boolean;
-  setOpen: any;
-  onOk: any;
-  id: number | undefined;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  onOk: (id: number) => void;
+  id: number;
 }
 
 function DeleteDialog(props: SimpleDialogProps) {
@@ -29,11 +29,10 @@ function DeleteDialog(props: SimpleDialogProps) {
       <Button
         color="error"
         onClick={() => {
-          onOk(id);
+          id && onOk(id);
         }}
       >
         {t("delete")}
-        
       </Button>
     </Dialog>
   );

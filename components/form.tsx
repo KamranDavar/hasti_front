@@ -36,7 +36,7 @@ import { useTranslation } from "next-i18next";
 type propsType = {
   mode: "create" | "update";
   id?: number;
-  updateList: any;
+  updateList: () => void;
   initialExpand?: boolean;
   item?: rel;
   items: rels;
@@ -78,14 +78,16 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
   return (
     <>
       {mode === "create" && (
-        <Button startIcon={<AddIcon />} disabled={expanded} onClick={() => setExpanded(true)}>
+        <Button
+          startIcon={<AddIcon />}
+          disabled={expanded}
+          onClick={() => setExpanded(true)}
+        >
           {t("add social")}
         </Button>
       )}
-      <GrayPaper
-        sx={{ padding: expanded || mode === "update" ? "0.5rem" : "0" }}
-      >
-        {mode === "update" && (
+      <GrayPaper sx={{ padding: expanded || id ? "0.5rem" : "0" }}>
+        {id && (
           <Grid container spacing={2}>
             <Grid item flexGrow={1}>
               <Display type={item?.type} link={item?.link} />
@@ -103,7 +105,9 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
                 <DeleteDialog
                   open={open}
                   setOpen={setOpen}
-                  onOk={() => remove.mutate()}
+                  onOk={() => {
+                    remove.mutate();
+                  }}
                   id={id}
                 />
                 <Button
@@ -244,7 +248,3 @@ const GrayPaper = styled(Paper)<PaperProps>(({ theme }) => ({
 const ActionGrid = styled(Grid)<GridProps>(({ theme }) => ({
   marginTop: "-0.6rem",
 }));
-// const LinkTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
-//   direction: "ltr",
-//   font: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serifrtl",
-// }));
