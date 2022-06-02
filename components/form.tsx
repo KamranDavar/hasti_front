@@ -241,8 +241,8 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
 export default Form;
 
 const GrayPaper = styled(Paper)<PaperProps>(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? grey[900] : grey[50],
   padding: "0.5rem",
-  backgroundColor: grey[50],
   margin: "0.5rem 0",
 }));
 const ActionGrid = styled(Grid)<GridProps>(({ theme }) => ({

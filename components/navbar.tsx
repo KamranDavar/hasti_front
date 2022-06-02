@@ -1,15 +1,21 @@
+import React from "react";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { ColorModeContext } from "../pages/_app";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { useTheme} from "@mui/material/styles";
 
 export default function Navbar() {
+  const theme = useTheme();
   const router = useRouter();
   const { t } = useTranslation("common");
-  console.log("router", router);
-
+  const colorMode = React.useContext(ColorModeContext);
   useEffect(() => {
     const dir = router.locale === "en" ? "ltr" : "rtl";
     document.dir = dir;
@@ -36,6 +42,17 @@ export default function Navbar() {
             English
           </Button>
         </Link>
+        <IconButton
+          sx={{ ml: 1 }}
+          onClick={colorMode.toggleColorMode}
+          color="inherit"
+        >
+          {theme.palette.mode === "dark" ? (
+            <Brightness7Icon />
+          ) : (
+            <Brightness4Icon />
+          )}
+        </IconButton>
       </Grid>
     </nav>
   );

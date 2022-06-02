@@ -10,36 +10,61 @@ import { CacheProvider } from "@emotion/react";
 import { yellow } from "@mui/material/colors";
 import useLoadingPage from "./logic/hooks/loading";
 import useChangeLang from "./logic/hooks/changeLang";
+import React from "react";
+
+export const ColorModeContext = React.createContext({
+  toggleColorMode: () => {},
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
   const router = useRouter();
   useLoadingPage();
   const { font, cacheLtr, cacheRtl, dir } = useChangeLang();
-
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: yellow[800],
+  const [mode, setMode] = React.useState<"light" | "dark">("dark");
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
       },
-    },
-    typography: {
-      fontFamily: font,
-    },
-    direction: dir,
-  });
+    }),
+    []
+  );
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: mode,
+          background:{
+            default:"red",
+          },
+          primary: {
+            main: yellow[800],
+          },
+        },
+        typography: {
+          fontFamily: font,
+        },
+        direction: dir,
+      }),
+    [mode, font, dir]
+  );
 
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <ThemeProvider theme={theme}>
-            <CacheProvider value={router.locale === "en" ? cacheLtr : cacheRtl}>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </CacheProvider>
-          </ThemeProvider>
+          <ColorModeContext.Provider value={colorMode}>
+            <ThemeProvider theme={theme}>
+              <CacheProvider
+                value={router.locale === "en" ? cacheLtr : cacheRtl}
+              >
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </CacheProvider>
+            </ThemeProvider>
+          </ColorModeContext.Provider>
         </Hydrate>
       </QueryClientProvider>
     </>
@@ -47,6 +72,3 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 export default appWithTranslation(MyApp);
-function useChangelang(locale: string | undefined) {
-  throw new Error("Function not implemented.");
-}
