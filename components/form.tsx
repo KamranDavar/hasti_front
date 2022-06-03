@@ -92,8 +92,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
             <Grid item flexGrow={1}>
               <Display type={item?.type} link={item?.link} />
             </Grid>
-            <Grid item xs={12} md="auto">
-              <Grid container direction="row-reverse">
+            <Grid item xs={12} md="auto" container direction="row-reverse" alignItems="center" >
                 <Button
                   // startIcon={<DeleteIcon />}
                   onClick={() => setOpen(true)}
@@ -118,7 +117,6 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
                   <EditIcon />
                   <Box display={{ xs: "none", sm: "block" }}> {t("edit")}</Box>
                 </Button>
-              </Grid>
             </Grid>
           </Grid>
         )}
