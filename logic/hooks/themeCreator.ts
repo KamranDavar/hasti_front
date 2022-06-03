@@ -4,8 +4,6 @@ import { yellow, grey } from "@mui/material/colors";
 import { Direction } from "@mui/material";
 
 
-
-
 export default function useTheme(mode: "light" | "dark", dir: Direction, font: string) {
 
     const theme = React.useMemo(

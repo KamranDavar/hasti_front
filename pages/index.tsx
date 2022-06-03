@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import { useRels } from "../logic/hooks/rels";
 import Form from "../components/form";
 import Paper, { PaperProps } from "@mui/material/Paper";

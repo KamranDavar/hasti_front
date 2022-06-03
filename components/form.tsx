@@ -1,5 +1,4 @@
-import Input from "@mui/material/Input";
-import TextField, { TextFieldProps } from "@mui/material/TextField";
+import TextField from "@mui/material/TextField";
 import Collapse from "@mui/material/Collapse";
 import React, { FC, useEffect, useState } from "react";
 import { useForm, Controller, set } from "react-hook-form";
@@ -8,10 +7,10 @@ import {
   useUpdateRel,
   useDeleteRel,
 } from "../logic/hooks/rels";
-import { rel, rels } from "../logic/types";
+import { formType, rel, rels } from "../logic/types";
 import Button from "@mui/material/Button";
 import Paper, { PaperProps } from "@mui/material/Paper";
-import { alpha, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Grid, { GridProps } from "@mui/material/Grid";
 import { grey } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
@@ -33,15 +32,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useTranslation } from "next-i18next";
 
-type propsType = {
-  mode: "create" | "update";
-  id?: number;
-  updateList: () => void;
-  initialExpand?: boolean;
-  item?: rel;
-  items: rels;
-};
-const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
+const Form: FC<formType> = ({ mode, id, updateList, item, items }) => {
   const [expanded, setExpanded] = useState<boolean | undefined>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [link, setLink] = useState<string | undefined>(id ? item?.type : "");
@@ -74,6 +65,22 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
     setLink(e.target.value);
     setValue("type", e.target.value);
   };
+  const onCancel = () => {
+    setExpanded(false);
+    !id && reset();
+    !id && setLink("");
+  }
+
+  const isDuplicateInput = () => {
+    return !items.map((item) => item.link).includes(getValues("link"));
+  }
+  const options = [
+    { icon: <LinkedInIcon />, text: 'linkdin' },
+    { icon: <InstagramIcon />, text: 'instagram' },
+    { icon: <TwitterIcon />, text: 'twitter' },
+    { icon: <PublicIcon />, text: 'website' },
+    { icon: <FacebookIcon />, text: 'facebook' },
+  ]
 
   return (
     <>
@@ -93,30 +100,29 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
               <Display type={item?.type} link={item?.link} />
             </Grid>
             <Grid item xs={12} md="auto" container direction="row-reverse" alignItems="center" >
-                <Button
-                  // startIcon={<DeleteIcon />}
-                  onClick={() => setOpen(true)}
-                  color="error"
-                >
-                  <DeleteIcon />
-                  <Box display={{ xs: "none", sm: "block" }}>{t("delete")}</Box>
-                </Button>
-                <DeleteDialog
-                  open={open}
-                  setOpen={setOpen}
-                  onOk={() => {
-                    remove.mutate();
-                  }}
-                  id={id}
-                />
-                <Button
-                  onClick={() => setExpanded(true)}
-                  disabled={expanded}
-                  color="primary"
-                >
-                  <EditIcon />
-                  <Box display={{ xs: "none", sm: "block" }}> {t("edit")}</Box>
-                </Button>
+              <Button
+                onClick={() => setOpen(true)}
+                color="error"
+              >
+                <DeleteIcon />
+                <Box display={{ xs: "none", sm: "block" }}>{t("delete")}</Box>
+              </Button>
+              <DeleteDialog
+                open={open}
+                setOpen={setOpen}
+                onOk={() => {
+                  remove.mutate();
+                }}
+                id={id}
+              />
+              <Button
+                onClick={() => setExpanded(true)}
+                disabled={expanded}
+                color="primary"
+              >
+                <EditIcon />
+                <Box display={{ xs: "none", sm: "block" }}> {t("edit")}</Box>
+              </Button>
             </Grid>
           </Grid>
         )}
@@ -147,21 +153,12 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
                         label="Age"
                         onChange={handleChangeLink}
                       >
-                        <MenuItem value="linkdin">
-                          <LinkedInIcon /> {t("linkdin")}
-                        </MenuItem>
-                        <MenuItem value="instagram">
-                          <InstagramIcon /> {t("instagram")}
-                        </MenuItem>
-                        <MenuItem value="twitter">
-                          <TwitterIcon /> {t("twitter")}
-                        </MenuItem>
-                        <MenuItem value="website">
-                          <PublicIcon /> {t("website")}
-                        </MenuItem>
-                        <MenuItem value="facebook">
-                          <FacebookIcon /> {t("facebook")}
-                        </MenuItem>
+                        {options.map((item, index) => <MenuItem value={item.text}>
+                          {item.icon}
+                          <Typography marginLeft="0.2rem" display='inline-block'>
+                            {t(item.text)}
+                          </Typography>
+                        </MenuItem>)}
                       </Select>
                       <FormHelperText>{errors.type?.message}</FormHelperText>
                     </FormControl>
@@ -191,44 +188,32 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
                       message: "please inter a vald link.",
                     },
                     validate: {
-                      value: () => {
-                        const links = items.map((item) => item.link);
-                        return !links.includes(getValues("link"));
-                      },
+                      value: isDuplicateInput,
                     },
                   }}
                 />
               </Grid>
             </Grid>
-            <ActionGrid container spacing={2}>
-              <ActionGrid item xs={0} lg={9}></ActionGrid>
-              <ActionGrid item xs={12} lg={12}>
-                <Grid container direction="row-reverse">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    size="small"
-                    color="primary"
-                    disabled={!!errors.link || !!errors.type}
-                  >
-                    {id ? t("edit") : t("submit")} {t("social")}{" "}
-                    {link && t(link)}
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      setExpanded(false);
-                      !id && reset();
-                      !id && setLink("");
-                    }}
-                    color="primary"
-                    size="small"
-                  >
-                    {t("cancel")}
-                  </Button>
-                </Grid>
-              </ActionGrid>
-            </ActionGrid>
+            <Grid container spacing={2} direction="row-reverse" paddingTop={{ xs: "1.5rem", lg: "1rem" }}>
+              <Button
+                type="submit"
+                variant="contained"
+                size="small"
+                color="primary"
+                disabled={!!errors.link || !!errors.type}
+              >
+                {id ? t("edit") : t("submit")} {t("social")}{" "}
+                {link && t(link)}
+              </Button>
+              <Button
+                type="button"
+                onClick={onCancel}
+                color="primary"
+                size="small"
+              >
+                {t("cancel")}
+              </Button>
+            </Grid>
           </form>
         </Collapse>
       </GrayPaper>
@@ -242,7 +227,4 @@ const GrayPaper = styled(Paper)<PaperProps>(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? grey[900] : grey[50],
   padding: "0.5rem",
   margin: "0.5rem 0",
-}));
-const ActionGrid = styled(Grid)<GridProps>(({ theme }) => ({
-  marginTop: "-0.6rem",
 }));
