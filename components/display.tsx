@@ -42,8 +42,11 @@ function Display(props: display) {
     <Grid container alignItems="center" >
       <PaddingGrid  item>
         <Grid container alignItems="center">
+          <Typography padding="0.5rem 0.5rem 0 0">
+            {icon} 
+          </Typography>
           <Typography>
-            {icon} {type && t(type)}
+            {type && t(type)}
           </Typography>
         </Grid>
       </PaddingGrid>

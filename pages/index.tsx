@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useRels } from "./logic/hooks/rels";
+import { useRels } from "../logic/hooks/rels";
 import Form from "../components/form";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
@@ -11,6 +11,7 @@ import { InferGetStaticPropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   return {
@@ -37,7 +38,7 @@ const Home: NextPage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   }
   if (rels.data) {
     return (
-      <>
+      <Box marginTop="1rem">
         <Typography variant="h6">{t("User settings")}</Typography>
         <PaddingPaper elevation={4}>
           <Typography gutterBottom component="h6">
@@ -56,7 +57,7 @@ const Home: NextPage = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             />
           ))}
         </PaddingPaper>
-      </>
+      </Box>
     );
   }
   return <></>;
@@ -66,5 +67,5 @@ export default Home;
 
 const PaddingPaper = styled(Paper)<PaperProps>(({ theme }) => ({
   padding: "1rem",
-  marginTop: "2rem",
+  marginTop: "1rem",
 }));

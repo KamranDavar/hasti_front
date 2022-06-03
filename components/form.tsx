@@ -7,8 +7,8 @@ import {
   useCreateRel,
   useUpdateRel,
   useDeleteRel,
-} from "../pages/logic/hooks/rels";
-import { rel, rels } from "../pages/logic/types";
+} from "../logic/hooks/rels";
+import { rel, rels } from "../logic/types";
 import Button from "@mui/material/Button";
 import Paper, { PaperProps } from "@mui/material/Paper";
 import { alpha, styled } from "@mui/material/styles";
@@ -92,7 +92,7 @@ const Form: FC<propsType> = ({ mode, id, updateList, item, items }) => {
             <Grid item flexGrow={1}>
               <Display type={item?.type} link={item?.link} />
             </Grid>
-            <Grid item>
+            <Grid item xs={12} md="auto">
               <Grid container direction="row-reverse">
                 <Button
                   // startIcon={<DeleteIcon />}

@@ -4,13 +4,13 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { useState } from "react";
 import { appWithTranslation } from "next-i18next";
 import Layout from "../components/layout";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { CacheProvider } from "@emotion/react";
-import { yellow } from "@mui/material/colors";
-import useLoadingPage from "./logic/hooks/loading";
-import useChangeLang from "./logic/hooks/changeLang";
+import useLoadingPage from "../logic/hooks/loading";
 import React from "react";
+import useTheme from "../logic/hooks/themeCreator";
+import useChangeLang from "../logic/hooks/changeLang";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -19,9 +19,8 @@ export const ColorModeContext = React.createContext({
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
   const router = useRouter();
-  useLoadingPage();
-  const { font, cacheLtr, cacheRtl, dir } = useChangeLang();
-  const [mode, setMode] = React.useState<"light" | "dark">("dark");
+  const [mode, setMode] = React.useState<"light" | "dark">("light");
+
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -30,25 +29,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     }),
     []
   );
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: mode,
-          background:{
-            default:"red",
-          },
-          primary: {
-            main: yellow[800],
-          },
-        },
-        typography: {
-          fontFamily: font,
-        },
-        direction: dir,
-      }),
-    [mode, font, dir]
-  );
+  useLoadingPage();
+  const { font, cacheLtr, cacheRtl, dir } = useChangeLang();
+  const theme= useTheme(mode, dir, font)
 
   return (
     <>
