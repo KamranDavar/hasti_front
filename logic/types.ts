@@ -1,7 +1,7 @@
 export type rel = {
   "id"?: number,
-  "type": string,
-  "link": string,
+  "type"?: string,
+  "link"?: string,
 
 };
 

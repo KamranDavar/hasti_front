@@ -9,7 +9,7 @@ export default function useChangeLang() {
 
   const font =
     router.locale === "fa"
-      ? "Byekan"
+      ? "Yekan"
       : "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serifrtl";
 
   const cacheRtl = createCache({

@@ -8,13 +8,9 @@ import Link from "@mui/material/Link";
 import styled from "@emotion/styled";
 import { useTranslation } from "next-i18next";
 import Typography from "@mui/material/Typography";
+import { rel } from "../logic/types";
 
-export interface display {
-  type?: string;
-  link?: string;
-}
-
-function Display(props: display) {
+function Display(props: rel) {
   const { type, link } = props;
   const { t } = useTranslation("common");
 
@@ -40,31 +36,24 @@ function Display(props: display) {
 
   return (
     <>
-        <Grid sm="auto" xs={12} item container alignItems="middle">
-          <Typography
-            display="inline"
-            padding="0 0.5rem 0 0"
-          >
-            {icon}
-          </Typography>
-          <Typography marginRight="0.5rem" display="inline">
-            {type && t(type)}
-          </Typography>
-        </Grid>
-        <Grid item sm xs={12}>
-          <Typography variant="caption" display="inline">
-            {t("link")}:{" "}
-          </Typography>
-          <Typography display="inline">
-            <Link href={link}>{link}</Link>
-          </Typography>
-        </Grid>
+      <Grid sm="auto" xs={12} item container alignItems="middle">
+        <Typography display="inline" padding="0 0.5rem 0 0">
+          {icon}
+        </Typography>
+        <Typography marginRight="0.5rem" display="inline">
+          {type && t(type)}
+        </Typography>
+      </Grid>
+      <Grid item sm xs={12}>
+        <Typography variant="caption" display="inline">
+          {t("link")}:{" "}
+        </Typography>
+        <Typography display="inline">
+          <Link href={link}>{link}</Link>
+        </Typography>
+      </Grid>
     </>
   );
 }
 
 export default Display;
-
-export const PaddingGrid = styled(Grid)<GridProps>(({ theme }) => ({
-  padding: "0.5rem",
-}));

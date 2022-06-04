@@ -98,8 +98,7 @@ const Form: FC<formType> = ({ mode, id, updateList, item, items }) => {
               sm
               container
               alignItems="middle"
-              paddingTop="0.5rem"
-            >
+              marginTop="0.5rem"            >
               <Display type={item?.type} link={item?.link} />
             </Grid>
             <Grid
