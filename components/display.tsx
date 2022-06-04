@@ -30,7 +30,7 @@ function Display(props: display) {
     case "instagram":
       icon = <InstagramIcon />;
       break;
-    case "linkdin":
+    case "linkedin":
       icon = <LinkedInIcon />;
       break;
     case "website":
@@ -39,26 +39,27 @@ function Display(props: display) {
   }
 
   return (
-    <Grid container alignItems="center" >
-      <PaddingGrid  item>
-        <Grid container alignItems="center">
-          <Typography padding="0.5rem 0.5rem 0 0">
-            {icon} 
+    <>
+        <Grid sm="auto" xs={12} item container alignItems="middle">
+          <Typography
+            display="inline"
+            padding="0 0.5rem 0 0"
+          >
+            {icon}
           </Typography>
-          <Typography>
+          <Typography marginRight="0.5rem" display="inline">
             {type && t(type)}
           </Typography>
         </Grid>
-      </PaddingGrid>
-      <PaddingGrid flexGrow={1} item>
-        <Typography variant="caption" display="inline">
-          {t("link")}: {' '}
-        </Typography>
-        <Typography  display="inline">
-          <Link href={link}>{link}</Link>
-        </Typography>
-      </PaddingGrid>
-    </Grid>
+        <Grid item sm xs={12}>
+          <Typography variant="caption" display="inline">
+            {t("link")}:{" "}
+          </Typography>
+          <Typography display="inline">
+            <Link href={link}>{link}</Link>
+          </Typography>
+        </Grid>
+    </>
   );
 }
 

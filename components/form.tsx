@@ -2,11 +2,7 @@ import TextField from "@mui/material/TextField";
 import Collapse from "@mui/material/Collapse";
 import React, { FC, useEffect, useState } from "react";
 import { useForm, Controller, set } from "react-hook-form";
-import {
-  useCreateRel,
-  useUpdateRel,
-  useDeleteRel,
-} from "../logic/hooks/rels";
+import { useCreateRel, useUpdateRel, useDeleteRel } from "../logic/hooks/rels";
 import { formType, rel, rels } from "../logic/types";
 import Button from "@mui/material/Button";
 import Paper, { PaperProps } from "@mui/material/Paper";
@@ -69,18 +65,18 @@ const Form: FC<formType> = ({ mode, id, updateList, item, items }) => {
     setExpanded(false);
     !id && reset();
     !id && setLink("");
-  }
+  };
 
   const isDuplicateInput = () => {
     return !items.map((item) => item.link).includes(getValues("link"));
-  }
+  };
   const options = [
-    { icon: <LinkedInIcon />, text: 'linkdin' },
-    { icon: <InstagramIcon />, text: 'instagram' },
-    { icon: <TwitterIcon />, text: 'twitter' },
-    { icon: <PublicIcon />, text: 'website' },
-    { icon: <FacebookIcon />, text: 'facebook' },
-  ]
+    { icon: <LinkedInIcon />, text: "linkedin" },
+    { icon: <InstagramIcon />, text: "instagram" },
+    { icon: <TwitterIcon />, text: "twitter" },
+    { icon: <PublicIcon />, text: "website" },
+    { icon: <FacebookIcon />, text: "facebook" },
+  ];
 
   return (
     <>
@@ -95,34 +91,39 @@ const Form: FC<formType> = ({ mode, id, updateList, item, items }) => {
       )}
       <GrayPaper sx={{ padding: expanded || id ? "0.5rem" : "0" }}>
         {id && (
-          <Grid container spacing={2}>
-            <Grid item flexGrow={1}>
+          <Grid container spacing={2} >
+            <Grid item xs={9} sm container alignItems="middle"  paddingTop="0.5rem">
               <Display type={item?.type} link={item?.link} />
             </Grid>
-            <Grid item xs={12} md="auto" container direction="row-reverse" alignItems="center" >
-              <Button
-                onClick={() => setOpen(true)}
-                color="error"
-              >
-                <DeleteIcon />
-                <Box display={{ xs: "none", sm: "block" }}>{t("delete")}</Box>
-              </Button>
-              <DeleteDialog
-                open={open}
-                setOpen={setOpen}
-                onOk={() => {
-                  remove.mutate();
-                }}
-                id={id}
-              />
-              <Button
-                onClick={() => setExpanded(true)}
-                disabled={expanded}
-                color="primary"
-              >
-                <EditIcon />
-                <Box display={{ xs: "none", sm: "block" }}> {t("edit")}</Box>
-              </Button>
+            <Grid
+              item
+              xs={3}
+              sm="auto"
+              container
+              direction="row-reverse"
+              alignItems="center"
+            >
+                <Button onClick={() => setOpen(true)} color="error">
+                  <DeleteIcon />
+                  <Box display={{ xs: "none", md: "block" }}>{t("delete")}</Box>
+                </Button>
+       
+                <DeleteDialog
+                  open={open}
+                  setOpen={setOpen}
+                  onOk={() => {
+                    remove.mutate();
+                  }}
+                  id={id}
+                />
+                <Button
+                  onClick={() => setExpanded(true)}
+                  disabled={expanded}
+                  color="primary"
+                >
+                  <EditIcon />
+                  <Box display={{ xs: "none", md: "block" }}> {t("edit")}</Box>
+                </Button>
             </Grid>
           </Grid>
         )}
@@ -153,12 +154,17 @@ const Form: FC<formType> = ({ mode, id, updateList, item, items }) => {
                         label="Age"
                         onChange={handleChangeLink}
                       >
-                        {options.map((item, index) => <MenuItem value={item.text}>
-                          {item.icon}
-                          <Typography marginLeft="0.2rem" display='inline-block'>
-                            {t(item.text)}
-                          </Typography>
-                        </MenuItem>)}
+                        {options.map((item, index) => (
+                          <MenuItem value={item.text}>
+                            {item.icon}
+                            <Typography
+                              marginLeft="0.2rem"
+                              display="inline-block"
+                            >
+                              {t(item.text)}
+                            </Typography>
+                          </MenuItem>
+                        ))}
                       </Select>
                       <FormHelperText>{errors.type?.message}</FormHelperText>
                     </FormControl>
@@ -194,7 +200,12 @@ const Form: FC<formType> = ({ mode, id, updateList, item, items }) => {
                 />
               </Grid>
             </Grid>
-            <Grid container spacing={2} direction="row-reverse" paddingTop={{ xs: "1.5rem", lg: "1rem" }}>
+            <Grid
+              container
+              spacing={2}
+              direction="row-reverse"
+              paddingTop={{ xs: "1.5rem", lg: "1rem" }}
+            >
               <Button
                 type="submit"
                 variant="contained"
@@ -202,8 +213,7 @@ const Form: FC<formType> = ({ mode, id, updateList, item, items }) => {
                 color="primary"
                 disabled={!!errors.link || !!errors.type}
               >
-                {id ? t("edit") : t("submit")} {t("social")}{" "}
-                {link && t(link)}
+                {id ? t("edit") : t("submit")} {t("social")} {link && t(link)}
               </Button>
               <Button
                 type="button"
