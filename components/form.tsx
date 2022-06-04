@@ -91,8 +91,15 @@ const Form: FC<formType> = ({ mode, id, updateList, item, items }) => {
       )}
       <GrayPaper sx={{ padding: expanded || id ? "0.5rem" : "0" }}>
         {id && (
-          <Grid container spacing={2} >
-            <Grid item xs={9} sm container alignItems="middle"  paddingTop="0.5rem">
+          <Grid container spacing={2}>
+            <Grid
+              item
+              xs={9}
+              sm
+              container
+              alignItems="middle"
+              paddingTop="0.5rem"
+            >
               <Display type={item?.type} link={item?.link} />
             </Grid>
             <Grid
@@ -103,27 +110,27 @@ const Form: FC<formType> = ({ mode, id, updateList, item, items }) => {
               direction="row-reverse"
               alignItems="center"
             >
-                <Button onClick={() => setOpen(true)} color="error">
-                  <DeleteIcon />
-                  <Box display={{ xs: "none", md: "block" }}>{t("delete")}</Box>
-                </Button>
-       
-                <DeleteDialog
-                  open={open}
-                  setOpen={setOpen}
-                  onOk={() => {
-                    remove.mutate();
-                  }}
-                  id={id}
-                />
-                <Button
-                  onClick={() => setExpanded(true)}
-                  disabled={expanded}
-                  color="primary"
-                >
-                  <EditIcon />
-                  <Box display={{ xs: "none", md: "block" }}> {t("edit")}</Box>
-                </Button>
+              <Button onClick={() => setOpen(true)} color="error">
+                <DeleteIcon />
+                <Box display={{ xs: "none", md: "block" }}>{t("delete")}</Box>
+              </Button>
+
+              <DeleteDialog
+                open={open}
+                setOpen={setOpen}
+                onOk={() => {
+                  remove.mutate();
+                }}
+                id={id}
+              />
+              <Button
+                onClick={() => setExpanded(true)}
+                disabled={expanded}
+                color="primary"
+              >
+                <EditIcon />
+                <Box display={{ xs: "none", md: "block" }}> {t("edit")}</Box>
+              </Button>
             </Grid>
           </Grid>
         )}
@@ -155,7 +162,7 @@ const Form: FC<formType> = ({ mode, id, updateList, item, items }) => {
                         onChange={handleChangeLink}
                       >
                         {options.map((item, index) => (
-                          <MenuItem value={item.text}>
+                          <MenuItem value={item.text} key={index}>
                             {item.icon}
                             <Typography
                               marginLeft="0.2rem"
